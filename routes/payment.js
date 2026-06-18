@@ -59,8 +59,11 @@ router.post('/', protect, async (req, res) => {
       const month = parseInt(dateParts[1], 10) - 1;
       const day = parseInt(dateParts[2], 10);
 
-      const startOfDay = new Date(Date.UTC(year, month, day, 0, 0, 0, 0));
-      const endOfDay = new Date(Date.UTC(year, month, day, 23, 59, 59, 999));
+      const offsetMinutes = req.body.timezoneOffset ? Number(req.body.timezoneOffset) : 0;
+      const localStart = new Date(Date.UTC(year, month, day, 0, 0, 0, 0));
+      const localEnd = new Date(Date.UTC(year, month, day, 23, 59, 59, 999));
+      const startOfDay = new Date(localStart.getTime() + (offsetMinutes * 60 * 1000));
+      const endOfDay = new Date(localEnd.getTime() + (offsetMinutes * 60 * 1000));
 
       const salesToday = await Sale.find({
         farmerId: req.user._id,
