@@ -19,7 +19,8 @@ const SaleSchema = new mongoose.Schema({
   
   netAmount: { type: Number, required: true }, // grossAmount - totalDeductions
   amountPaid: { type: Number, default: 0 }, // cash collected for this specific sale
-  paymentStatus: { type: String, enum: ['Unpaid', 'Partial', 'Paid'], default: 'Unpaid' }
+  paymentStatus: { type: String, enum: ['Unpaid', 'Partial', 'Paid'], default: 'Unpaid' },
+  isOverallSale: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model('Sale', SaleSchema);
