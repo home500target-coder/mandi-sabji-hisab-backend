@@ -68,7 +68,8 @@ router.post('/', protect, async (req, res) => {
       const salesToday = await Sale.find({
         farmerId: req.user._id,
         brokerId,
-        date: { $gte: startOfDay, $lte: endOfDay }
+        date: { $gte: startOfDay, $lte: endOfDay },
+        isOverallSale: { $ne: true }
       }).sort({ date: 1 });
 
       let amountLeft = totalCredit;
