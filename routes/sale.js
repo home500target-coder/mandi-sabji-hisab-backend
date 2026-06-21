@@ -22,7 +22,7 @@ router.get('/', protect, async (req, res) => {
 // @route   POST /api/sales
 // @access  Private
 router.post('/', protect, async (req, res) => {
-  const { brokerId, vegetableName, quantity, unit, unitPrice, date } = req.body;
+  const { brokerId, vegetableName, quantity, unit, unitPrice, date, isOverallSale } = req.body;
 
   try {
     if (!brokerId || !vegetableName || !quantity || !unitPrice) {
@@ -56,7 +56,8 @@ router.post('/', protect, async (req, res) => {
       },
       netAmount,
       amountPaid: 0,
-      paymentStatus: 'Unpaid'
+      paymentStatus: 'Unpaid',
+      isOverallSale: isOverallSale || false
     });
 
     const createdSale = await sale.save();
